@@ -1,0 +1,209 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Icon from "@/components/Icon.astro";
+import { siteConfig } from "@/config/site";
+
+const { contact } = siteConfig;
+
+const interests = [
+  "Sightseeing",
+  "Adventure & Trekking",
+  "Honeymoon / Romantic",
+  "Family with kids",
+  "Photography",
+  "Local food & culture",
+  "Bike expedition",
+  "Budget backpacking",
+];
+---
+
+<BaseLayout
+  title="Build Your Own Trip"
+  description={`Tell ${siteConfig.name} exactly what you want and get a free, custom-made Kashmir or Ladakh itinerary. No obligation.`}
+>
+  <!-- Header -->
+  <section class="border-b border-slate-100 bg-slate-50">
+    <div class="container-x py-14 text-center">
+      <p class="eyebrow">Made just for you</p>
+      <h1 class="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">Design Your Custom Trip</h1>
+      <p class="mx-auto mt-3 max-w-2xl text-slate-600">
+        Not sure which package fits? Tell us your dates, group size, budget and interests —
+        our local experts will craft a personalised itinerary and send you a free quote.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-x grid gap-10 lg:grid-cols-[1fr_320px]">
+      <!-- Form -->
+      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <form id="custom-trip-form" data-whatsapp={contact.whatsapp} class="space-y-6">
+          <!-- Contact info -->
+          <fieldset class="space-y-4">
+            <legend class="text-sm font-semibold uppercase tracking-wider text-[var(--brand-primary)]">
+              Your details
+            </legend>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="name" class="label">Full name *</label>
+                <input id="name" name="name" type="text" required class="input" />
+              </div>
+              <div>
+                <label for="phone" class="label">Phone / WhatsApp *</label>
+                <input id="phone" name="phone" type="tel" required class="input" />
+              </div>
+            </div>
+            <div>
+              <label for="email" class="label">Email (optional)</label>
+              <input id="email" name="email" type="email" class="input" />
+            </div>
+          </fieldset>
+
+          <!-- Trip details -->
+          <fieldset class="space-y-4">
+            <legend class="text-sm font-semibold uppercase tracking-wider text-[var(--brand-primary)]">
+              Trip details
+            </legend>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="destination" class="label">Destination *</label>
+                <select id="destination" name="destination" required class="input">
+                  <option value="Kashmir">Kashmir</option>
+                  <option value="Ladakh">Ladakh</option>
+                  <option value="Kashmir & Ladakh">Kashmir &amp; Ladakh</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
+              </div>
+              <div>
+                <label for="duration" class="label">Duration (days)</label>
+                <input id="duration" name="duration" type="number" min="1" max="30" placeholder="e.g. 7" class="input" />
+              </div>
+              <div>
+                <label for="startDate" class="label">Approx. travel date</label>
+                <input id="startDate" name="startDate" type="date" class="input" />
+              </div>
+              <div>
+                <label for="budget" class="label">Budget per person</label>
+                <select id="budget" name="budget" class="input">
+                  <option value="Flexible">Flexible</option>
+                  <option value="Under ₹15,000">Under ₹15,000</option>
+                  <option value="₹15,000 – ₹30,000">₹15,000 – ₹30,000</option>
+                  <option value="₹30,000 – ₹50,000">₹30,000 – ₹50,000</option>
+                  <option value="₹50,000+">₹50,000+</option>
+                </select>
+              </div>
+              <div>
+                <label for="adults" class="label">Adults</label>
+                <input id="adults" name="adults" type="number" min="1" value="2" class="input" />
+              </div>
+              <div>
+                <label for="children" class="label">Children</label>
+                <input id="children" name="children" type="number" min="0" value="0" class="input" />
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Interests -->
+          <fieldset>
+            <legend class="text-sm font-semibold uppercase tracking-wider text-[var(--brand-primary)]">
+              What are you interested in?
+            </legend>
+            <div class="mt-3 grid gap-2 sm:grid-cols-2">
+              {interests.map((item) => (
+                <label class="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm transition hover:border-[var(--brand-primary)]">
+                  <input type="checkbox" name="interests" value={item} class="accent-[var(--brand-primary)]" />
+                  {item}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div>
+            <label for="message" class="label">Anything else? (optional)</label>
+            <textarea id="message" name="message" rows="4" placeholder="Special requests, occasions, must-see places, dietary needs…" class="input"></textarea>
+          </div>
+
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <button type="submit" class="btn-primary flex-1">
+              <Icon name="whatsapp" size={18} /> Send request on WhatsApp
+            </button>
+            <a id="email-fallback" href={`mailto:${contact.email}`} class="btn-outline flex-1 !border-slate-300 !text-slate-700 hover:!bg-slate-50">
+              <Icon name="email" size={18} /> Send by email
+            </a>
+          </div>
+          <p class="text-center text-xs text-slate-400">
+            No spam, no obligation. We reply within a few hours during business hours.
+          </p>
+        </form>
+      </div>
+
+      <!-- Side info -->
+      <aside class="space-y-4">
+        <div class="rounded-2xl bg-[var(--brand-primary)] p-6 text-white">
+          <h2 class="text-lg font-bold">How it works</h2>
+          <ol class="mt-4 space-y-3 text-sm text-teal-50">
+            <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-xs font-bold">1</span> Fill in your trip details</li>
+            <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-xs font-bold">2</span> We design a custom itinerary + quote</li>
+            <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-xs font-bold">3</span> Tweak it together until it's perfect</li>
+            <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-xs font-bold">4</span> Book with confidence & travel</li>
+          </ol>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-6">
+          <h2 class="font-bold text-slate-900">Prefer to talk?</h2>
+          <a href={`tel:${contact.phoneRaw}`} class="mt-3 flex items-center gap-2 text-sm text-slate-700 hover:text-[var(--brand-primary)]">
+            <Icon name="phone" size={16} /> {contact.phone}
+          </a>
+          <a href={`mailto:${contact.email}`} class="mt-2 flex items-center gap-2 text-sm text-slate-700 hover:text-[var(--brand-primary)]">
+            <Icon name="email" size={16} /> {contact.email}
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("custom-trip-form") as HTMLFormElement | null;
+  const emailBtn = document.getElementById("email-fallback") as HTMLAnchorElement | null;
+
+  function buildMessage(fd: FormData): string {
+    const get = (k: string) => (fd.get(k)?.toString() || "").trim();
+    const interests = fd.getAll("interests").map(String);
+
+    const lines = [
+      "*Custom Trip Request*",
+      "",
+      `👤 Name: ${get("name")}`,
+      `📞 Phone: ${get("phone")}`,
+    ];
+    if (get("email")) lines.push(`✉️ Email: ${get("email")}`);
+    lines.push(
+      "",
+      `📍 Destination: ${get("destination")}`,
+      `🗓️ Travel date: ${get("startDate") || "Flexible"}`,
+      `⏱️ Duration: ${get("duration") ? get("duration") + " days" : "Not specified"}`,
+      `👥 Travellers: ${get("adults") || "0"} adults, ${get("children") || "0"} children`,
+      `💰 Budget/person: ${get("budget")}`,
+    );
+    if (interests.length) lines.push(`✨ Interests: ${interests.join(", ")}`);
+    if (get("message")) lines.push("", `📝 Notes: ${get("message")}`);
+    return lines.join("\n");
+  }
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const number = form.dataset.whatsapp || "";
+    const text = encodeURIComponent(buildMessage(new FormData(form)));
+    window.open(`https://wa.me/${number}?text=${text}`, "_blank", "noopener");
+  });
+
+  // Also let the "Send by email" button carry the same pre-filled details.
+  emailBtn?.addEventListener("click", (e) => {
+    if (!form) return;
+    e.preventDefault();
+    const body = encodeURIComponent(buildMessage(new FormData(form)).replace(/\*/g, ""));
+    const subject = encodeURIComponent("Custom Trip Request");
+    window.location.href = `${emailBtn.getAttribute("href")}?subject=${subject}&body=${body}`;
+  });
+</script>

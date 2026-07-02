@@ -1,0 +1,105 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Icon from "@/components/Icon.astro";
+import PackageCard from "@/components/PackageCard.astro";
+import { destinations } from "@/data/destinations";
+import { packages } from "@/data/packages";
+import { whatsappUrl } from "@/config/site";
+
+export function getStaticPaths() {
+  return Object.values(destinations).map((d) => ({
+    params: { slug: d.slug },
+    props: { destination: d },
+  }));
+}
+
+const { destination } = Astro.props;
+
+// Related packages for this region.
+const related = packages.filter(
+  (p) => p.region === destination.name || p.region === "Kashmir & Ladakh",
+);
+---
+
+<BaseLayout
+  title={`${destination.name} Tours — ${destination.headline}`}
+  description={destination.intro}
+  image={destination.heroImage}
+>
+  <!-- Hero -->
+  <section class="relative flex min-h-[60vh] items-center">
+    <img
+      src={destination.heroImage}
+      alt={destination.heroImageAlt}
+      width="1600"
+      height="1000"
+      fetchpriority="high"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-slate-900/55"></div>
+    <div class="container-x relative py-20 text-white">
+      <p class="eyebrow !text-[var(--brand-accent)]">Destination</p>
+      <h1 class="mt-2 text-4xl font-extrabold sm:text-5xl">{destination.name}</h1>
+      <p class="mt-2 text-xl text-slate-100">{destination.headline}</p>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="section">
+    <div class="container-x grid gap-8 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <h2 class="text-2xl font-bold text-slate-900">About {destination.name}</h2>
+        <p class="mt-4 leading-relaxed text-slate-600">{destination.intro}</p>
+      </div>
+      <aside class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+        <h3 class="flex items-center gap-2 font-semibold text-slate-900">
+          <Icon name="clock" size={18} class="text-[var(--brand-primary)]" /> Best time to visit
+        </h3>
+        <p class="mt-2 text-sm text-slate-600">{destination.bestTime}</p>
+        <a href={whatsappUrl()} target="_blank" rel="noopener" class="btn-primary mt-5 w-full text-sm">
+          <Icon name="whatsapp" size={18} /> Ask about {destination.name}
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Attractions -->
+  <section class="section bg-slate-50">
+    <div class="container-x">
+      <h2 class="text-2xl font-bold text-slate-900 sm:text-3xl">Top places to see</h2>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {destination.attractions.map((a) => (
+          <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <img
+              src={a.image}
+              alt={a.imageAlt}
+              width="800"
+              height="600"
+              loading="lazy"
+              decoding="async"
+              class="aspect-[4/3] w-full object-cover"
+            />
+            <div class="p-5">
+              <h3 class="font-bold text-slate-900">{a.name}</h3>
+              <p class="mt-2 text-sm text-slate-600">{a.blurb}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related packages -->
+  {related.length > 0 && (
+    <section class="section">
+      <div class="container-x">
+        <h2 class="text-2xl font-bold text-slate-900 sm:text-3xl">
+          {destination.name} tour packages
+        </h2>
+        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {related.map((pkg, i) => <PackageCard pkg={pkg} eager={i < 3} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

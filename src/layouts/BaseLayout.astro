@@ -1,0 +1,51 @@
+---
+import "@/styles/global.css";
+import { siteConfig } from "@/config/site";
+import SEO from "@/components/SEO.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import WhatsAppButton from "@/components/WhatsAppButton.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title, description, image, noindex, jsonLd } = Astro.props;
+const { theme } = siteConfig;
+---
+
+<!doctype html>
+<html lang={siteConfig.seo.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Preconnect to the image CDN for faster image loading -->
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+
+    <SEO {title} {description} {image} {noindex} {jsonLd} />
+  </head>
+  <body
+    class="min-h-screen bg-white text-slate-800 antialiased"
+    style={`--brand-primary:${theme.primary};--brand-primary-dark:${theme.primaryDark};--brand-accent:${theme.accent};`}
+  >
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:shadow"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppButton />
+  </body>
+</html>

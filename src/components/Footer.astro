@@ -1,0 +1,82 @@
+---
+import { siteConfig } from "@/config/site";
+import Icon from "./Icon.astro";
+
+const year = new Date().getFullYear();
+const { contact, address } = siteConfig;
+---
+
+<footer class="bg-slate-900 text-slate-300">
+  <div class="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Brand -->
+    <div>
+      <div class="flex items-center gap-2 text-lg font-bold text-white">
+        <Icon name="pin" size={20} />
+        <span>{siteConfig.name}</span>
+      </div>
+      <p class="mt-3 text-sm leading-relaxed text-slate-400">{siteConfig.description}</p>
+      <div class="mt-4 flex gap-3">
+        {siteConfig.socials.map((s) => (
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener"
+            aria-label={s.label}
+            class="rounded-full bg-slate-800 p-2 text-slate-300 transition hover:bg-[var(--brand-primary)] hover:text-white"
+          >
+            <Icon name={s.icon} size={18} />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Explore -->
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Explore</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        {siteConfig.nav.map((item) => (
+          <li>
+            <a href={item.href} class="transition hover:text-white">{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Contact</h3>
+      <ul class="mt-4 space-y-3 text-sm">
+        <li>
+          <a href={`tel:${contact.phoneRaw}`} class="flex items-center gap-2 transition hover:text-white">
+            <Icon name="phone" size={16} /> {contact.phone}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${contact.email}`} class="flex items-center gap-2 transition hover:text-white">
+            <Icon name="email" size={16} /> {contact.email}
+          </a>
+        </li>
+        <li class="flex items-start gap-2">
+          <Icon name="pin" size={16} class="mt-0.5 shrink-0" />
+          <span>{address.street}, {address.city}, {address.state} {address.postalCode}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Hours -->
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Opening Hours</h3>
+      <p class="mt-4 flex items-center gap-2 text-sm">
+        <Icon name="clock" size={16} /> {siteConfig.hours}
+      </p>
+      <a href="/contact" class="btn-accent mt-5 text-sm">Plan your trip</a>
+    </div>
+  </div>
+
+  <div class="border-t border-slate-800">
+    <div class="container-x flex flex-col items-center justify-between gap-2 py-5 text-xs text-slate-500 sm:flex-row">
+      <p>&copy; {siteConfig.foundedYear}–{year} {siteConfig.legalName}. All rights reserved.</p>
+      <p>Made with care in the Himalayas.</p>
+    </div>
+  </div>
+</footer>
